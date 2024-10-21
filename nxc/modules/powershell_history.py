@@ -38,7 +38,7 @@ class NXCModule:
         """Main function to retrieve and analyze PowerShell history."""
         try:
             context.log.info("Retrieving PowerShell history...")
-            command = 'powershell.exe "type C:\\Users\\*\\AppData\\Roaming\\Microsoft\\Windows\\PowerShell\\PSReadLine\\ConsoleHost_history.txt"'
+            command = 'Get-ChildItem -Path C:\Users\*\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt -Recurse | ForEach-Object {Write-Output "File : $($_.FullName)"; Type $_.FullName; Write-Output "`n"}'
             history = connection.execute(command, True).split("\n")
             if history:
                 sensitive_commands = self.analyze_history(history)
